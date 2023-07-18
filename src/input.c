@@ -22,8 +22,7 @@ void input_buffer_destroy(struct InputBuffer* buffer) {
 }
 
 bool input_buffer_push_char(struct InputBuffer* buffer, char* nbuf) {
-	bool overflow = (buffer->pos + 1) > buffer->size;
-	if(overflow) return false; 
+	if(buffer->pos == buffer->size) return false; 
 
 	buffer->data[buffer->pos] = *nbuf;
 	buffer->pos++; 
