@@ -32,7 +32,7 @@ bool input_buffer_push_char(struct InputBuffer* buffer, char* nbuf) {
 bool input_buffer_pop_char(struct InputBuffer* buffer) {
 	if(buffer->pos == 0) return false;
 
-	buffer->data[buffer->pos-1] = 0;
 	buffer->pos--;
+	buffer->data[buffer->pos] = 0;
 	return true;
 }
