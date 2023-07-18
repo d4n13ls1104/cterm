@@ -1,0 +1,6 @@
+build/*
+compile_commands.json
+cterm
+jb_mono.ttf
+.cache
+build

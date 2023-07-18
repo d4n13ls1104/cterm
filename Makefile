@@ -10,7 +10,7 @@ OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 
 INCS := -I$(INCLUDE_DIR)
 
-TARGET := dterm
+TARGET := cterm
 
 all: $(TARGET)
 
