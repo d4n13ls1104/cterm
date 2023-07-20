@@ -55,8 +55,6 @@ SDL_Renderer* initialize_renderer(struct SDL_Window* window) {
 		printf("Renderer could not be initialized.\n"
 		       "SDL_Error: %s\n", SDL_GetError());
 		return NULL;
-	} else {
-
 	}
 	return renderer;
 }
