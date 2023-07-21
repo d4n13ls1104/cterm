@@ -57,7 +57,7 @@ SDL_Renderer* initialize_renderer(struct SDL_Window* window)
 		printf("Renderer could not be initialized.\n"
 		       "SDL_Error: %s\n", SDL_GetError());
 		return NULL;
-	} 
+	}
 	return renderer;
 }
 
@@ -104,9 +104,6 @@ struct ConsoleState* console_init() {
 		free(self);
 		return NULL;
 	}
-
-	char* terminal_prefix = "[drew@cterm]$ ";
-	for(size_t i = 0; i < 14; i++) input_buffer_put_char(input_buffer, &terminal_prefix[i]);
 
 	self->input_buffer = input_buffer;
 	self->window = window;
