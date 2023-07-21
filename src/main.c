@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <time.h>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -8,25 +9,48 @@
 #include "console.h"
 #include "events.h"
 
-int main() {
+#define MEASURE_INTERVAL_SECONDS 1
+
+int main()
+{
 	struct ConsoleState* console = console_init();
-	if(!console) {
+	if(!console)
+	{
 		printf("Failed to initialize console");
 		return 0;
 	}
 
-	while(!console->quit) {
+	int fps_counter = 0;
+	double start_time, current_time;
+	double fps;
+
+	start_time = (double)clock() / CLOCKS_PER_SEC;
+
+	while(!console->quit)
+	{
+		fps_counter++;
 		poll_events(console);
+
+		current_time = (double)clock() / CLOCKS_PER_SEC;
+		
+		if(current_time - start_time >= MEASURE_INTERVAL_SECONDS)
+		{
+			fps = (double)fps_counter / (current_time - start_time);
+			printf("FPS: %f\n", fps);
+			fps_counter = 0;
+			start_time = current_time;
+		}
 	
 		SDL_SetRenderDrawColor(console->renderer, 0, 0, 0, 0);
 		SDL_RenderClear(console->renderer);
 		
-		SDL_Surface* input_surface = TTF_RenderText_Solid(console->font, (const char*)console->input_buffer->data, console->font_color);
+		SDL_Surface* input_surface = TTF_RenderText_Blended_Wrapped(console->font, (const char*)console->input_buffer->data, console->font_color, WINDOW_WIDTH);
 		SDL_Texture* input_texture = SDL_CreateTextureFromSurface(console->renderer, input_surface);
+
+		SDL_Rect input_rect = {0, 0, 0, 0};
+		TTF_SizeText(console->font, (const char*)console->input_buffer->data, &input_rect.w, &input_rect.h);
 		
-		TTF_SizeText(console->font, (const char*)console->input_buffer->data, &console->linesize.w, &console->linesize.h);
-		
-		SDL_RenderCopy(console->renderer, input_texture, NULL, &console->linesize);
+		SDL_RenderCopy(console->renderer, input_texture, NULL, &input_rect);
 		SDL_RenderPresent(console->renderer);
 		
 		SDL_DestroyTexture(input_texture);
