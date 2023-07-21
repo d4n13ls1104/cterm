@@ -3,10 +3,13 @@
 
 #include <SDL2/SDL.h>
 
-void poll_events(struct ConsoleState* console) {
+void poll_events(struct ConsoleState* console)
+{
 	SDL_Event e;
-	while(SDL_PollEvent(&e))  {
-		switch(e.type) {
+	while(SDL_PollEvent(&e))
+	{
+		switch(e.type)
+		{
 			case SDL_QUIT: console->quit = true; break;
 
 			case SDL_TEXTINPUT:
