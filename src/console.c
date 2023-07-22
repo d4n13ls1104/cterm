@@ -23,7 +23,6 @@ SDL_Window* initialize_window()
 		       "SDL_Error: %s\n", SDL_GetError());
 		return NULL;
 	}
-
 	return window;
 }
 
@@ -43,9 +42,7 @@ TTF_Font* initialize_font()
 		       "TTF_Error: %s\n", TTF_GetError());
 		return NULL;
 	}
-
 	return font;
-
 }
 
 SDL_Renderer* initialize_renderer(struct SDL_Window* window)
