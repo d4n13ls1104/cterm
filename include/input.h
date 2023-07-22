@@ -14,7 +14,7 @@ struct InputBuffer {
 struct InputBuffer* input_buffer_new(size_t size);
 void input_buffer_destroy(struct InputBuffer* buffer);
 
-void input_buffer_put_char(struct InputBuffer* buffer, char* nbuf);
+void input_buffer_put_char(struct InputBuffer* buffer, char c);
 void input_buffer_pop_char(struct InputBuffer* buffer);
 
 #endif

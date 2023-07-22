@@ -24,10 +24,10 @@ void input_buffer_destroy(struct InputBuffer* buffer)
 	free(buffer);
 }
 
-void input_buffer_put_char(struct InputBuffer* buffer, char* nbuf)
+void input_buffer_put_char(struct InputBuffer* buffer, char c)
 {
 	if(buffer->pos == buffer->size) return; 
-	buffer->data[buffer->pos] = *nbuf;
+	buffer->data[buffer->pos] = c;
 	buffer->pos++; 
 }
 

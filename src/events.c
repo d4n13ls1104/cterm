@@ -13,7 +13,7 @@ void poll_events(struct ConsoleState* console)
 			case SDL_QUIT: console->quit = true; break;
 
 			case SDL_TEXTINPUT:
-				input_buffer_put_char(console->input_buffer, e.text.text);
+				input_buffer_put_char(console->input_buffer, e.text.text[0]);
 				break;
 
 			case SDL_KEYDOWN:
