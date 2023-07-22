@@ -11,6 +11,36 @@
 
 #define MEASURE_INTERVAL_SECONDS 1
 
+void render(struct ConsoleState* console)
+{
+	SDL_SetRenderDrawColor(console->renderer, 0, 0, 0, 0);
+	SDL_RenderClear(console->renderer);
+
+	SDL_Surface* input_surface = TTF_RenderText_Blended_Wrapped(console->font,
+					 (char*)console->input_buffer->data,
+					 console->font_color, WINDOW_WIDTH);
+	SDL_Texture* input_texture = SDL_CreateTextureFromSurface(console->renderer, input_surface);
+
+	SDL_Rect input_rect = {0, 0, 0, 0};
+	TTF_SizeText(console->font, (char*)console->input_buffer->data, &input_rect.w, &input_rect.h);
+
+	SDL_Rect cursor_rect = {0, 0, 0, 0};
+	cursor_rect.x = input_rect.w;
+	cursor_rect.y = 0;
+	cursor_rect.w = input_rect.h / 2;
+	cursor_rect.h = input_rect.h;
+
+	SDL_SetRenderDrawColor(console->renderer, 255, 255, 255, 255);
+	SDL_RenderFillRect(console->renderer, &cursor_rect);
+
+	SDL_RenderCopy(console->renderer, input_texture, NULL, &input_rect);
+
+	SDL_RenderPresent(console->renderer);
+
+	SDL_DestroyTexture(input_texture);
+	SDL_FreeSurface(input_surface);
+}
+
 int main()
 {
 	struct ConsoleState* console = console_init();
@@ -40,21 +70,7 @@ int main()
 			fps_counter = 0;
 			start_time = current_time;
 		}
-	
-		SDL_SetRenderDrawColor(console->renderer, 0, 0, 0, 0);
-		SDL_RenderClear(console->renderer);
-		
-		SDL_Surface* input_surface = TTF_RenderText_Blended_Wrapped(console->font, (const char*)console->input_buffer->data, console->font_color, WINDOW_WIDTH);
-		SDL_Texture* input_texture = SDL_CreateTextureFromSurface(console->renderer, input_surface);
-
-		SDL_Rect input_rect = {0, 0, 0, 0};
-		TTF_SizeText(console->font, (const char*)console->input_buffer->data, &input_rect.w, &input_rect.h);
-		
-		SDL_RenderCopy(console->renderer, input_texture, NULL, &input_rect);
-		SDL_RenderPresent(console->renderer);
-		
-		SDL_DestroyTexture(input_texture);
-		SDL_FreeSurface(input_surface);
+		render(console);
 	}
 	
 	TTF_Quit();
